@@ -110,13 +110,16 @@ class FacebookNativeAd extends StatefulWidget {
 }
 
 class _FacebookNativeAdState extends State<FacebookNativeAd> {
+
+  bool isLoadStart = false;
+
   @override
   Widget build(BuildContext context) {
     if (defaultTargetPlatform == TargetPlatform.android) {
       return Container(
         width: widget.width,
         height: widget.adType == NativeAdType.NATIVE_AD
-            ? widget.height
+            ? (isLoadStart ? widget.height : 1)
             : widget.bannerAdSize.height.toDouble(),
         child: AndroidView(
           viewType: NATIVE_AD_CHANNEL,
@@ -180,7 +183,14 @@ class _FacebookNativeAdState extends State<FacebookNativeAd> {
         case LOADED_METHOD:
           if (widget.listener != null)
             widget.listener(NativeAdResult.LOADED, call.arguments);
-          setState(() {});
+          break;
+        case LOAD_SUCCESS_METHOD:
+          print("ad load success, modify view height");
+          if(!isLoadStart){
+            setState(() {
+              isLoadStart = true;
+            });
+          }
           break;
         case CLICKED_METHOD:
           if (widget.listener != null)

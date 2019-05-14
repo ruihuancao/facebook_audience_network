@@ -19,6 +19,7 @@ const String DISPLAYED_METHOD = "displayed";
 const String DISMISSED_METHOD = "dismissed";
 const String ERROR_METHOD = "error";
 const String LOADED_METHOD = "loaded";
+const String LOAD_SUCCESS_METHOD = "load_success";
 const String CLICKED_METHOD = "clicked";
 const String LOGGING_IMPRESSION_METHOD = "logging_impression";
 

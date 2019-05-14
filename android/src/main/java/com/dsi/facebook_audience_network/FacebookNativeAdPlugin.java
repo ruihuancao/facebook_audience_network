@@ -3,6 +3,7 @@ package com.dsi.facebook_audience_network;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.facebook.ads.Ad;
@@ -54,7 +55,6 @@ class FacebookNativeAdView implements PlatformView, NativeAdListener {
     FacebookNativeAdView(Context context, int id, HashMap args, BinaryMessenger messenger) {
 
         adView = new LinearLayout(context);
-
         this.channel = new MethodChannel(messenger,
                 FacebookConstants.NATIVE_AD_CHANNEL + "_" + id);
 
@@ -138,7 +138,16 @@ class FacebookNativeAdView implements PlatformView, NativeAdListener {
         HashMap<String, Object> args = new HashMap<>();
         args.put("placement_id", ad.getPlacementId());
         args.put("invalidated", ad.isAdInvalidated());
+        channel.invokeMethod(FacebookConstants.LOAD_SUCCESS_METHOD, args);
+        adView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showNativeAd();
+            }
+        }, 1000);
+    }
 
+    private void showNativeAd(){
         if(adView.getChildCount() > 0)
             adView.removeAllViews();
 
@@ -152,7 +161,6 @@ class FacebookNativeAdView implements PlatformView, NativeAdListener {
                     this.nativeAd,
                     getViewAttributes(this.context, this.args)));
         }
-
         channel.invokeMethod(FacebookConstants.LOADED_METHOD, args);
     }
 
