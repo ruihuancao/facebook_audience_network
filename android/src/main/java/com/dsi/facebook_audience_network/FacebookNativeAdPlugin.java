@@ -2,6 +2,7 @@ package com.dsi.facebook_audience_network;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -70,6 +71,9 @@ class FacebookNativeAdView implements PlatformView, NativeAdListener {
             nativeAd.setAdListener(this);
             nativeAd.loadAd();
         }
+        Log.d("FacebookNativeAdView", "native view ");
+        if (args.get("bg_color") != null)
+            adView.setBackgroundColor(Color.parseColor((String) args.get("bg_color")));
     }
 
     private NativeAdViewAttributes getViewAttributes(Context context, HashMap args) {
